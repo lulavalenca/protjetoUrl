@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <h1>URL Shortener</h1>
+    <form id="shorten-form">
+        <input type="text" id="url-input" placeholder="Enter URL">
+        <button type="button" onclick="shortenUrl()">Shorten</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        async function shortenUrl() {
+            const url = document.getElementById('url-input').value;
+            const response = await fetch('/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url })
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerText = response.ok ? `Short URL: ${result.short_url}` : `Error: ${result.error}`;
+        }
+    </script>
+</body>
+</html>
